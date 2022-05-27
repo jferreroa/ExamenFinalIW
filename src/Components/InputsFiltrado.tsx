@@ -63,7 +63,7 @@ export const InputsFiltrado: FC<propsIn> = ({ pagina, cambiarArr }) => {
                 console.log("filtrando")
                 cambiarArr(data!.characters.results)
             }}>FILTRAR LA PAGINA</button>
-            <div className='info'>Se puede filtrar solo por un campo(Genero o estado)</div>
+            <div className='numpag2'>Se puede filtrar solo por un campo(Genero o estado) o por los dos</div>
             {/*data && data.characters.results.map(c => (<div className="aa" key = {c.name + "ds" }>{c.name}</div>))*/}
             {paginaFil && paginaFil > 1  && <button onClick={() => {
                 setPaginaFil(paginaFil - 1)
