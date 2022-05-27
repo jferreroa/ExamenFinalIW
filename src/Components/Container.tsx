@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
+import { InputsFiltrado } from './InputsFiltrado';
 
 type tipo_ResultadoQuery = {
     characters: {
@@ -28,6 +29,7 @@ const GET_PAGE = gql`
                 name
                 status
                 species
+                gender
             }
         }
     }
@@ -50,6 +52,7 @@ export const Container = () => {
     const { data, loading, error, refetch } = useQuery<tipo_ResultadoQuery>(GET_PAGE, {
         variables: {
             pagina: pagina
+
         },
     })
     useEffect(() => { //metemos data en los distintos arrays
@@ -117,6 +120,7 @@ export const Container = () => {
                             <div>Name:{c.name}</div>
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
+                            <div>Gender:{c.gender}</div>
                         </div>
                     ))}
                 </div>
@@ -126,6 +130,7 @@ export const Container = () => {
                             <div>Name:{c.name}</div>
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
+                            <div>Gender:{c.gender}</div>
                         </div>
                     ))}
                 </div>
@@ -135,6 +140,7 @@ export const Container = () => {
                             <div>Name:{c.name}</div>
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
+                            <div>Gender:{c.gender}</div>
                         </div>
                     ))}
                 </div>
@@ -144,6 +150,7 @@ export const Container = () => {
                             <div>Name:{c.name}</div>
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
+                            <div>Gender:{c.gender}</div>
                         </div>
                     ))}
                 </div>
@@ -152,7 +159,10 @@ export const Container = () => {
 
             {pagina > 1 && <button onClick={() => { setPagina(pagina - 1) }}>Prev</button>}
             {pagina < total && <button onClick={() => { setPagina(pagina + 1) }}>Next</button>}
-            <div>Numero de pagina: {pagina + "/" + total}</div>
+            <div className='numpag'>Numero de pagina: {pagina + "/" + total}</div>
+            <div className='filtrado'>
+                <InputsFiltrado  pagina ={pagina} cambiarArr ={setArrayOriginal}/>
+            </div>
         </div>
     )
 }
