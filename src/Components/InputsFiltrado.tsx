@@ -28,6 +28,7 @@ const GET_PAGE = gql`
             name
             status
             gender
+            species
         }
   }
 }
@@ -35,7 +36,7 @@ const GET_PAGE = gql`
 `
 
 
-export const InputsFiltrado: FC<propsIn> = ({pagina}) => {
+export const InputsFiltrado: FC<propsIn> = ({pagina, cambiarArr}) => {
     const [genero, setGenero] = useState<string>("")
     const [status, setStatus] = useState<string>("")
     const { data, loading, error, refetch } = useQuery<tipo_ResultadoQuery>(GET_PAGE, {
@@ -54,10 +55,10 @@ export const InputsFiltrado: FC<propsIn> = ({pagina}) => {
             <input value={status} type="text" onChange={(e) => setStatus(e.target.value)} placeholder="Alive | Dead | Unknown"></input>
             <button onClick={() => {
                 console.log("filtrando")
+                cambiarArr(data!.characters.results)
+            }}>FILTRAR LA PAGINA</button>
 
-            }}>Filtrar</button>
-
-            {data && data.characters.results.map(c => (<div className="aa" key = {c.name + "ds" }>{c.name}</div>))}
+            {/*data && data.characters.results.map(c => (<div className="aa" key = {c.name + "ds" }>{c.name}</div>))*/}
         </div>
     )
 }
