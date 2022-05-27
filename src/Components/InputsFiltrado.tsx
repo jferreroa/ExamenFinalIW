@@ -65,14 +65,14 @@ export const InputsFiltrado: FC<propsIn> = ({ pagina, cambiarArr }) => {
             }}>FILTRAR LA PAGINA</button>
             <div className='info'>Se puede filtrar solo por un campo(Genero o estado)</div>
             {/*data && data.characters.results.map(c => (<div className="aa" key = {c.name + "ds" }>{c.name}</div>))*/}
-            {paginaFil  && <button onClick={() => {
+            {paginaFil && paginaFil > 1  && <button onClick={() => {
                 setPaginaFil(paginaFil - 1)
                 refetch()
                 console.log(paginaFil)
                 cambiarArr(data!.characters.results)
 
             }}>PrevFiltrado</button>}
-            {paginaFil  && <button onClick={() => {
+            {paginaFil && paginaFil <= total && <button onClick={() => {
                 setPaginaFil(paginaFil + 1)
                 refetch()
                 console.log(paginaFil)

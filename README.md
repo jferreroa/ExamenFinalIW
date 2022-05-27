@@ -1,3 +1,7 @@
+# EL boton de ordenar funciona sobre paginas indiviales con los datos sin filtrar
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
