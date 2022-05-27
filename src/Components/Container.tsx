@@ -30,6 +30,7 @@ const GET_PAGE = gql`
                 status
                 species
                 gender
+                image
             }
         }
     }
@@ -121,6 +122,7 @@ export const Container = () => {
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
                             <div>Gender:{c.gender}</div>
+                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
                         </div>
                     ))}
                 </div>
@@ -131,6 +133,8 @@ export const Container = () => {
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
                             <div>Gender:{c.gender}</div>
+                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
+
                         </div>
                     ))}
                 </div>
@@ -141,6 +145,8 @@ export const Container = () => {
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
                             <div>Gender:{c.gender}</div>
+                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
+
                         </div>
                     ))}
                 </div>
@@ -151,6 +157,8 @@ export const Container = () => {
                             <div>Status:{c.status}</div>
                             <div>Species:{c.species}</div>
                             <div>Gender:{c.gender}</div>
+                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
+
                         </div>
                     ))}
                 </div>

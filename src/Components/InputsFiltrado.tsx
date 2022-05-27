@@ -3,8 +3,8 @@ import { gql, useQuery } from '@apollo/client'
 import React, { FC, useState } from 'react'
 
 type propsIn = {
-    pagina:number
-    cambiarArr: (arr:any) => void
+    pagina: number
+    cambiarArr: (arr: any) => void
 }
 type tipo_ResultadoQuery = {
     characters: {
@@ -14,6 +14,8 @@ type tipo_ResultadoQuery = {
             status: string
             species: string
             gender: string
+            image: string
+
         }>
     }
 }
@@ -29,6 +31,8 @@ const GET_PAGE = gql`
             status
             gender
             species
+            image
+
         }
   }
 }
@@ -36,18 +40,20 @@ const GET_PAGE = gql`
 `
 
 
-export const InputsFiltrado: FC<propsIn> = ({pagina, cambiarArr}) => {
+export const InputsFiltrado: FC<propsIn> = ({ pagina, cambiarArr }) => {
     const [genero, setGenero] = useState<string>("")
     const [status, setStatus] = useState<string>("")
+    const [paginaFil, setPaginaFil] = useState<number |undefined>(pagina)
     const { data, loading, error, refetch } = useQuery<tipo_ResultadoQuery>(GET_PAGE, {
         variables: {
             filter: {
                 status: status,
                 gender: genero
-              },
-              page: pagina
+            },
+            page: paginaFil
         },
     })
+    const total: number = data?.characters.info.pages ? data?.characters.info.pages : 0;
 
     return (
         <div>
@@ -57,8 +63,26 @@ export const InputsFiltrado: FC<propsIn> = ({pagina, cambiarArr}) => {
                 console.log("filtrando")
                 cambiarArr(data!.characters.results)
             }}>FILTRAR LA PAGINA</button>
-
+            <div className='info'>Se puede filtrar solo por un campo(Genero o estado)</div>
             {/*data && data.characters.results.map(c => (<div className="aa" key = {c.name + "ds" }>{c.name}</div>))*/}
+            {paginaFil  && <button onClick={() => {
+                setPaginaFil(paginaFil - 1)
+                refetch()
+                console.log(paginaFil)
+                cambiarArr(data!.characters.results)
+
+            }}>PrevFiltrado</button>}
+            {paginaFil  && <button onClick={() => {
+                setPaginaFil(paginaFil + 1)
+                refetch()
+                console.log(paginaFil)
+                console.log(data!.characters.results)
+                cambiarArr(data!.characters.results)
+
+
+            }}>NextFiltrado</button>}
+            <div className='numpag>'>Hay que usar las flechas de filtrado para pasar paginas una vez filtrado</div>
+            <div className='numpag2'>¡¡¡Hay que usar las flechas de filtrado para pasar paginas una vez filtrado!!!!</div>
         </div>
     )
 }
