@@ -15,13 +15,20 @@
 
 .listadoCompleto >div{
   margin: 10px;
-  border:1px solid black;
+  border:1px solid red;
 }
 .listadoCompleto >div>div{
   margin: 10px;
-  border:1px solid black;
+  border:1px solid red;
+  color:white;
 }
+
+.listadoCompleto >div>div>div{
+  margin: 5px;
+}
+
 body{
   display: flex;
   justify-content: center;
+  background-color:black;
 }
