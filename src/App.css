@@ -5,26 +5,13 @@
 .listado{
   margin:10px;
   border:1px solid black;
+  color:white;
+
 }
 
 .listadoCompleto{
-  display:flex;
-  flex-direction: row;
-  margin:40px;
-}
-
-.listadoCompleto >div{
-  margin: 10px;
-  border:1px solid red;
-}
-.listadoCompleto >div>div{
-  margin: 10px;
-  border:1px solid red;
-  color:white;
-}
-
-.listadoCompleto >div>div>div{
-  margin: 5px;
+ display: flex;
+ flex-direction: row;
 }
 
 body{
@@ -51,5 +38,11 @@ body{
 
 .numpag2{
   background-color:blue;
+  color:white;
+}
+
+
+
+.filtrado{
   color:white;
 }

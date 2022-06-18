@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql, useQuery } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { InputsFiltrado } from './InputsFiltrado';
 
 type tipo_ResultadoQuery = {
@@ -20,45 +20,55 @@ type tipo_ResultadoQuery = {
 }
 
 const GET_PAGE = gql`
-    query characters($pagina: Int) {
-        characters(page: $pagina) {
-   		    info{
-    		    pages
-   		    }
-            results{
-                name
-                status
-                species
-                gender
-                image
-            }
+    query characters($filter: FilterCharacter, $page: Int) {
+    characters(filter: $filter, page: $page) {
+        info{
+    		pages
+   		}
+        results {
+            name
+            status
+            gender
+            species
+            image
         }
-    }
+  }
+}
 `
 
+type ContainerProps = {
+    genero: string | "",
+    status: string | ""
+}
 
-export const Container = () => {
+
+export const Container: FC<ContainerProps> = ({ genero, status }) => {
 
 
 
     const [pagina, setPagina] = useState<number>(1);
     const [arrayOriginal, setArrayOriginal] = useState<any>(undefined);
-
-    const [array1, setArray1] = useState<tipo_ResultadoQuery[] | undefined>(undefined);
-    const [array2, setArray2] = useState<tipo_ResultadoQuery[] | undefined>(undefined);
-    const [array3, setArray3] = useState<tipo_ResultadoQuery[] | undefined>(undefined);
-    const [array4, setArray4] = useState<tipo_ResultadoQuery[] | undefined>(undefined);
+    const [arrayOrdenado, setArrayOrdenado] = useState<any>(undefined);
+    const [generoFil, setgeneroFil] = useState<any>("");
+    const [statusFil, setstatusFil] = useState<any>("");
 
 
     const { data, loading, error, refetch } = useQuery<tipo_ResultadoQuery>(GET_PAGE, {
         variables: {
-            pagina: pagina
+
+            filter: {
+                status: statusFil,
+                gender: generoFil
+            },
+
+            page: pagina
 
         },
     })
     useEffect(() => { //metemos data en los distintos arrays
         if (data) {
             let arr = []
+            console.log(data)
             arr = data.characters.results.map((character) => {
                 return character
             })
@@ -75,102 +85,141 @@ export const Container = () => {
         }
         arrOrdenado = arr.sort(SortArray)
         console.log(arrOrdenado)
-        if (arrOrdenado) {
-            setArray1(arrOrdenado.slice(0, 4))
-            setArray2(arrOrdenado.slice(5, 9))
-            setArray3(arrOrdenado.slice(10, 14))
-            setArray4(arrOrdenado.slice(15, 19))
-        }
+
+        setArrayOrdenado(arrOrdenado)
     }
 
     useEffect(() => {
-        if (arrayOriginal) {
-            console.log("arrrrrr original", arrayOriginal)
-            setArray1(arrayOriginal.slice(0, 4))
-            setArray2(arrayOriginal.slice(5, 9))
-            setArray3(arrayOriginal.slice(10, 14))
-            setArray4(arrayOriginal.slice(15, 19))
+        if (arrayOrdenado) {
+            setArrayOriginal(arrayOrdenado)
         }
-    }, [arrayOriginal])
+    }, [arrayOrdenado])
 
-    if (loading) {
+    useEffect(() => { // deberia actulizar la pagina a 0 cuando cambie el genero o el status
+        /*if(genero){
+            refetch({filter:{status:"",gender:genero}})
+        }
+        if(status){
+            refetch({filter:{status:status,gender:""}})
+        }
+        if(genero && status){
+            refetch({filter:{status:status,gender:genero}})
+        }*/
+
+        if (genero) {
+            setgeneroFil(genero) 
+        }
+        if (status) {
+            setstatusFil(status)
+        }
+    }, [genero, /*refetch,*/ status])
+
+    /*useEffect(() => {
+        if (generoFil) {
+            refetch({filter:{status:"",gender:generoFil}})
+        }
+        if(statusFil){
+            refetch({filter:{status:statusFil,gender:""}})
+        }
+        if(statusFil && generoFil){
+
+            refetch({filter:{status:statusFil,gender:generoFil}})
+        }
+
+
+    },[generoFil, refetch, statusFil])*/
+
+    /* if (loading) {
         return (<div>loading</div>)
     }
     if (error) {
         return (<div>error :</div>)
-    }
+    } */
     const total: number = data?.characters.info.pages ? data?.characters.info.pages : 0;
 
 
     return (
         <div className='contenedor'>
-
-            {/*arrayOriginal && arrayOriginal.map((c: any) => (
-                <div className='listado'>
-                    <div>Name:{c.name}</div>
-                    <div>Status:{c.status}</div>
-                    <div>Species:{c.species}</div>
-                </div>
-            ))*/}
-
-
             <div className='listadoCompleto'>
-                <div className='primerArray'>
-                    {array1 && array1.map((c: any) => (
-                        <div>
-                            <div>Name:{c.name}</div>
-                            <div>Status:{c.status}</div>
-                            <div>Species:{c.species}</div>
-                            <div>Gender:{c.gender}</div>
-                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
-                        </div>
-                    ))}
-                </div>
-                <div className='segundoArray'>
-                    {array2 && array2.map((c: any) => (
-                        <div>
-                            <div>Name:{c.name}</div>
-                            <div>Status:{c.status}</div>
-                            <div>Species:{c.species}</div>
-                            <div>Gender:{c.gender}</div>
-                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
 
+                <div>
+                    {arrayOriginal && arrayOriginal.slice(0, 4).map((c: any) => (
+                        <div className='listado'>
+                            <div>
+                                <div>Name:{c.name}</div>
+                                <div>Status:{c.status}</div>
+                                <div>Species:{c.species}</div>
+                                <img src={c.image} alt="at" width="100" height="100"></img>
+                            </div>
                         </div>
                     ))}
                 </div>
-                <div className='tercerArray'>
-                    {array3 && array3.map((c: any) => (
-                        <div>
-                            <div>Name:{c.name}</div>
-                            <div>Status:{c.status}</div>
-                            <div>Species:{c.species}</div>
-                            <div>Gender:{c.gender}</div>
-                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
 
-                        </div>
-                    ))}
-                </div>
-                <div className='cuartoArray'>
-                    {array4 && array4.map((c: any) => (
-                        <div>
-                            <div>Name:{c.name}</div>
-                            <div>Status:{c.status}</div>
-                            <div>Species:{c.species}</div>
-                            <div>Gender:{c.gender}</div>
-                            <img src={c.image} alt={c.image} width="100px" height="100px"></img>
+                <div>
+                    {arrayOriginal && arrayOriginal.slice(5, 9).map((c: any) => (
+                        <div className='listado'>
+                            <div>
+                                <div>Name:{c.name}</div>
+                                <div>Status:{c.status}</div>
+                                <div>Species:{c.species}</div>
+                                <img src={c.image} alt="at" width="100" height="100"></img>
 
+                            </div>
                         </div>
                     ))}
                 </div>
-                <button onClick={() => { ordenarArr(arrayOriginal) }}>ORDENACION</button>
+
+                <div>
+                    {arrayOriginal && arrayOriginal.slice(10, 14).map((c: any) => (
+                        <div className='listado'>
+                            <div>
+                                <div>Name:{c.name}</div>
+                                <div>Status:{c.status}</div>
+                                <div>Species:{c.species}</div>
+                                <img src={c.image} alt="at" width="100" height="100"></img>
+
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div>
+                    {arrayOriginal && arrayOriginal.slice(15, 19).map((c: any) => (
+                        <div className='listado'>
+                            <div>
+                                <div>Name:{c.name}</div>
+                                <div>Status:{c.status}</div>
+                                <div>Species:{c.species}</div>
+                                <img src={c.image} alt="at" width="100" height="100"></img>
+
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {pagina > 1 && <button onClick={() => { setPagina(pagina - 1) }}>Prev</button>}
-            {pagina < total && <button onClick={() => { setPagina(pagina + 1) }}>Next</button>}
+
+            <button onClick={() => { ordenarArr(arrayOriginal) }}>ORDENACION</button>
+
+            <div>
+                {pagina > 1 && <button onClick={() => {
+                    setPagina(pagina - 1)
+                    console.log("GENERO " + generoFil + " status " + statusFil + " pagina " + pagina)
+
+                }
+                }>Prev</button>}
+                {pagina < total && <button onClick={() => {
+                    setPagina(pagina + 1)
+                    console.log("GENERO " + generoFil + " status " + statusFil + " PAGINA " + pagina )
+
+                }}>Next</button>}
+            </div>
+
             <div className='numpag'>Numero de pagina: {pagina + "/" + total}</div>
-            <div className='filtrado'>
-                <InputsFiltrado  pagina ={pagina} cambiarArr ={setArrayOriginal}/>
-            </div>
+            {/*<div className='filtrado'>
+                <InputsFiltrado pagina={pagina} cambiarArr={setArrayOriginal} />
+                    </div>*/}
         </div>
     )
 }
+
+//no se actualiza al pasar pagina en filtrado
