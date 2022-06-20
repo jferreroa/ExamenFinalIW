@@ -5,13 +5,13 @@ import Select from 'react-select'
 const optionsGenero = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
-    { value: 'Unknowkn', label: 'Unknowkn' }
+    { value: 'unknown', label: 'unknown' }
 ]
 
 const optionsStatus = [
     { value: 'Alive', label: 'Alive' },
     { value: 'Dead', label: 'Dead' },
-    { value: 'Unknowkn', label: 'Unknowkn' }
+    { value: 'unknown', label: 'unknown' }
 ]
 
 
@@ -54,6 +54,8 @@ const Formulario:FC<formularioProps> = ({changeParams}) => {
     return (
         <div>
             <h1 className='filtrado'>FILTRADO</h1>
+            <input placeholder='buscar por nombre'></input>
+            <button>buscar</button>
             <Select
                 options={optionsGenero}
                 onChange={onDropChangeGenero}

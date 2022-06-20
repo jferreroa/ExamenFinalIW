@@ -107,7 +107,7 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
         }*/
 
         if (genero) {
-            setgeneroFil(genero) 
+            setgeneroFil(genero)
         }
         if (status) {
             setstatusFil(status)
@@ -142,9 +142,9 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
         <div className='contenedor'>
             <div className='listadoCompleto'>
 
-                <div>
-                    {arrayOriginal && arrayOriginal.slice(0, 4).map((c: any) => (
-                        <div className='listado'>
+                <div className = 'listadoNuevo' >
+                    {arrayOriginal && arrayOriginal.map((c: any) => (
+                        <div className='listado' >
                             <div>
                                 <div>Name:{c.name}</div>
                                 <div>Status:{c.status}</div>
@@ -155,7 +155,7 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                     ))}
                 </div>
 
-                <div>
+                {/*<div>
                     {arrayOriginal && arrayOriginal.slice(5, 9).map((c: any) => (
                         <div className='listado'>
                             <div>
@@ -167,9 +167,9 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                             </div>
                         </div>
                     ))}
-                </div>
+                    </div>*/}
 
-                <div>
+                {/*<div>
                     {arrayOriginal && arrayOriginal.slice(10, 14).map((c: any) => (
                         <div className='listado'>
                             <div>
@@ -181,8 +181,8 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div>
+                    </div>*/}
+                {/*<div>
                     {arrayOriginal && arrayOriginal.slice(15, 19).map((c: any) => (
                         <div className='listado'>
                             <div>
@@ -194,7 +194,7 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                             </div>
                         </div>
                     ))}
-                </div>
+                    </div>*/}
             </div>
 
 
@@ -209,7 +209,7 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                 }>Prev</button>}
                 {pagina < total && <button onClick={() => {
                     setPagina(pagina + 1)
-                    console.log("GENERO " + generoFil + " status " + statusFil + " PAGINA " + pagina )
+                    console.log("GENERO " + generoFil + " status " + statusFil + " PAGINA " + pagina)
 
                 }}>Next</button>}
             </div>

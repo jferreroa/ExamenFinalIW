@@ -2,12 +2,7 @@
   text-align: center;
 }
 
-.listado{
-  margin:10px;
-  border:1px solid black;
-  color:white;
 
-}
 
 .listadoCompleto{
  display: flex;
@@ -15,6 +10,7 @@
 }
 
 body{
+  background-image: url("https://rateyourmusic.com/release/ep/tu-madre-es-puta/no-es-un-disco-es-un-ep/buy/f");
   display: flex;
   justify-content: center;
   background-color:black;
@@ -45,4 +41,21 @@ body{
 
 .filtrado{
   color:white;
+}
+
+
+
+.listadoNuevo{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  
+}
+.listado{
+  
+  margin:10px;
+  border:1px solid black;
+  color:white;
+  flex: 1 0 21% 
+
 }

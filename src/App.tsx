@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { ApolloClient, InMemoryCache, ApolloProvider, } from "@apollo/client";
-import { Container } from './Components/Container';
 import PuenteDatosContainer from './Components/PuenteDatosContainer';
 
 
