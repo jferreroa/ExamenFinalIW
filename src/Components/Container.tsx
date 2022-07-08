@@ -2,6 +2,7 @@
 import { gql, useQuery } from '@apollo/client'
 import React, { FC, useEffect, useState } from 'react'
 import { InputsFiltrado } from './InputsFiltrado';
+import {BotonStyled} from './Formulario'
 
 type tipo_ResultadoQuery = {
     characters: {
@@ -38,27 +39,29 @@ const GET_PAGE = gql`
 
 type ContainerProps = {
     genero: string | "",
-    status: string | ""
+    status: string | "",
+    name: string | undefined,
 }
 
 
-export const Container: FC<ContainerProps> = ({ genero, status }) => {
+export const Container: FC<ContainerProps> = ({ genero, status, name }) => {
 
 
 
     const [pagina, setPagina] = useState<number>(1);
     const [arrayOriginal, setArrayOriginal] = useState<any>(undefined);
     const [arrayOrdenado, setArrayOrdenado] = useState<any>(undefined);
-    const [generoFil, setgeneroFil] = useState<any>("");
-    const [statusFil, setstatusFil] = useState<any>("");
-
+    const [generoFil, setgeneroFil] = useState<string>("");
+    const [statusFil, setstatusFil] = useState<string>("");
+    const [nameFil, setNameFil]  = useState<string | undefined>("");
 
     const { data, loading, error, refetch } = useQuery<tipo_ResultadoQuery>(GET_PAGE, {
         variables: {
 
             filter: {
                 status: statusFil,
-                gender: generoFil
+                gender: generoFil,
+                name: nameFil
             },
 
             page: pagina
@@ -114,6 +117,14 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
         }
     }, [genero, /*refetch,*/ status])
 
+    useEffect(() => {
+        if(name){
+            setNameFil(name)
+            if(name.length < 3){ //resetear filtro nombre
+                setNameFil(undefined)
+            }
+        }
+    },[name])
     /*useEffect(() => {
         if (generoFil) {
             refetch({filter:{status:"",gender:generoFil}})
@@ -146,10 +157,11 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
                     {arrayOriginal && arrayOriginal.map((c: any) => (
                         <div className='listado' >
                             <div>
-                                <div>Name:{c.name}</div>
-                                <div>Status:{c.status}</div>
-                                <div>Species:{c.species}</div>
-                                <img src={c.image} alt="at" width="100" height="100"></img>
+                                <h2>{c.name}</h2>
+                                <div>Status: {c.status}</div>
+                                <div>{c.species}</div>
+                                <div>-</div>
+                                <img src={c.image} className={"img"} alt="at" width="100" height="100"></img>
                             </div>
                         </div>
                     ))}
@@ -198,20 +210,20 @@ export const Container: FC<ContainerProps> = ({ genero, status }) => {
             </div>
 
 
-            <button onClick={() => { ordenarArr(arrayOriginal) }}>ORDENACION</button>
+            <BotonStyled onClick={() => { ordenarArr(arrayOriginal) }}>ORDENACION</BotonStyled>
 
             <div>
-                {pagina > 1 && <button onClick={() => {
+                {pagina > 1 && <BotonStyled onClick={() => {
                     setPagina(pagina - 1)
                     console.log("GENERO " + generoFil + " status " + statusFil + " pagina " + pagina)
 
                 }
-                }>Prev</button>}
-                {pagina < total && <button onClick={() => {
+                }>Prev</BotonStyled>}
+                {pagina < total && <BotonStyled onClick={() => {
                     setPagina(pagina + 1)
                     console.log("GENERO " + generoFil + " status " + statusFil + " PAGINA " + pagina)
 
-                }}>Next</button>}
+                }}>Next</BotonStyled>}
             </div>
 
             <div className='numpag'>Numero de pagina: {pagina + "/" + total}</div>

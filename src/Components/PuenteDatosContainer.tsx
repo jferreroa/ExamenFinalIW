@@ -5,15 +5,16 @@ import Formulario from './Formulario';
 const PuenteDatosContainer = () => {
 
     const[filtro,setFiltro] = useState<undefined | {status:string, genero:string}>(undefined)
+    const [nombreCont, setNombreCont] = useState<string|undefined>(undefined)
     useEffect(() => {
-        if(filtro)  {
-            //console.log("status: " + filtro.status + " genero: " + filtro.genero )
+        if(nombreCont)  {
+          console.log("PUENTE ", nombreCont)
         }
-    }, [filtro])
+    }, [nombreCont])
     return (
         <div>
-            <Formulario key = {1} changeParams = {setFiltro}/>
-            <Container key ={2} genero = {filtro?.genero || ""} status = {filtro?.status || ""}/>
+            <Formulario key = {1} changeParams = {setFiltro} changeName={setNombreCont} />
+            <Container key ={2} genero = {filtro?.genero || ""} status = {filtro?.status || ""} name= {nombreCont}/>
         </div>
 
     )

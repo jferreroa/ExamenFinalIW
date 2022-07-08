@@ -11,8 +11,8 @@ function App() {
   });
   return (
     <div className="App">
-      <ApolloProvider client={client}>
-        <PuenteDatosContainer/>
+      <ApolloProvider key={2} client={client}>
+        <PuenteDatosContainer key={1}/>
       </ApolloProvider>
     </div>
   );
